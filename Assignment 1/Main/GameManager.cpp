@@ -1,9 +1,23 @@
 #include "GameManager.h"
 #include "Arduino.h"
+#include "LevelManager.h"
+#include "ArrayManager.h"
+#include "ButtonManager.h"
+
+#define NUM_PIN 4
+#define NUM_BUTTON 4
+#define FIRST_PIN 2
+#define LAST_PIN 5
+#define RED 11
+
+int sequence[4];
+int expectedSequence[4];
+int pin[]={5, 4, 3, 2};
+int button[]={6,7,8,9};
+int difficulty;
+bool win;
 
 void game(){
-  
-  difficulty = checkDifficulty();
   
   //Spengo tutte le luci e metto in output "GO!"
   for(int i = 0; i < NUM_PIN; i++){
@@ -11,7 +25,7 @@ void game(){
   }
   Serial.println("GO!");
   Serial.print("Welcome to level ");
-  Serial.print(level);
+  Serial.print(getLevel());
   Serial.print(", you are playing in ");
   Serial.print(printDifficulty());
   Serial.println(" mode");
@@ -25,7 +39,7 @@ void game(){
   delay(2000);
   
   //Mescolare l'array
-  generateRandom();
+  generateRandom(sequence);
   
   //Invertire l'array
   reverseArray(sequence, expectedSequence, 4);
@@ -39,43 +53,16 @@ void game(){
     delay(200);
     int j = sequence[i];
     digitalWrite(j, LOW);
-    delay(turn_off_led_difficult); //modificando questo i led si spengono piu velocemente
+    delay(getTurnOffTime()); //modificando questo i led si spengono piu velocemente
   } 
  
  
   /*Pressione pulsanti e memorizzazione ordine*/
-  
-  int buttonIndex = 0;
-  while(pressedButtonsNum < 4 && solutionTime < 10000) {
-      if(debounceButton(buttonState1, 6) == HIGH && buttonState1 == LOW) {
-      	buttonSequence[buttonIndex++] = 2;
-        pressedButtonsNum++;
-      }
-      if(debounceButton(buttonState2, 7) == HIGH && buttonState2 == LOW) {
-      	buttonSequence[buttonIndex++] = 3;
-        pressedButtonsNum++;
-      }
-      if(debounceButton(buttonState3, 8) == HIGH && buttonState3 == LOW) {
-      	buttonSequence[buttonIndex++] = 4;
-        pressedButtonsNum++;
-      }
-      if(debounceButton(buttonState4, 9) == HIGH && buttonState4 == LOW) {
-      	buttonSequence[buttonIndex++] = 5;
-        pressedButtonsNum++;
-      }
-    for(int i=0;i<4;i++) {
-      	Serial.println(buttonSequence[i]);
-      }
-      Serial.println("\n");
-  }
+  getSequence();
   
   //Controllo sequenze e decisione risultato
-  win = true;
-  for(int i = 0; i < 4; i++) {
-    if(buttonSequence[i] != expectedSequence[i]) {
-      win = false;
-    }
-  }
+  win = checkButtonsSequence(expectedSequence);
+  
   if(win) {
     levelup();
   }
@@ -83,3 +70,4 @@ void game(){
     gamelost();
   } 
 }
+

@@ -1,8 +1,14 @@
 #include "ArrayManager.h"
 #include "Arduino.h"
 
+#define NUM_PIN 4
+#define NUM_BUTTON 4
+#define FIRST_PIN 2
+#define LAST_PIN 5
+#define RED 11
+
 /*generate, check duplicate and save*/
-void generateRandom(){
+void generateRandom(int sequence[4]){
   // Leggi il valore da un pin analogico (ad esempio A0)
   int seed = analogRead(A0);
   

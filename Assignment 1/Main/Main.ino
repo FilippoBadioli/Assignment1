@@ -7,36 +7,16 @@
 #include "ButtonManager.h"
 #include "LevelManager.h"
 
-#define NUM_PIN 4
-#define NUM_BUTTON 4
-#define FIRST_PIN 2
-#define LAST_PIN 5
 #define RED 11
 
 int turn_off_led_difficult = 800; //easy di default
-
-int pin[]={5, 4, 3, 2};
-int button[]={6,7,8,9};
-int sequence[4];
-int expectedSequence[4];
 int sequenza[4];
 int fade = 5;
 int brightness = 0;
 bool wantGame = false; //settare a false di default
 int prevButtonState=LOW;
 bool isInDeepSleeping = false;
-int pressedButtonsNum = 0;
-int buttonSequence[4];
 int solutionTime;
-int level;
-int difficulty;
-
-bool buttonState1 = LOW;
-bool buttonState2 = LOW;
-bool buttonState3 = LOW;
-bool buttonState4 = LOW;
-
-bool win;
 
 void setup()
 {
@@ -44,7 +24,6 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(8), wakeUp, LOW);
   attachInterrupt(digitalPinToInterrupt(7), wakeUp, LOW);
   attachInterrupt(digitalPinToInterrupt(6), wakeUp, LOW);
-  level = 1;
   wantGame=false;
   Serial.begin(9600);
   for(int i=2; i<6; i++){
@@ -70,7 +49,7 @@ void loop()
     //10s start
     for(int i = 1000; i>0 && wantGame==false; i--){
       fadeFun();
-      isB1Pressed();
+      wantGame = isB1Pressed();
       delay(10);
     }
   }
@@ -116,41 +95,8 @@ void fadeFun(){
   }
 }
 
-String printDifficulty() {
-  switch(difficulty) {
-    case 1:
-    return "easy";
-    break;
-    
-    case 2:
-    return "medium";
-    break;
-    
-    case 3:
-    return "hard";
-    break;
-    
-    case 4:
-    return "impossible";
-    break;
-  }
-}
 
-int checkDifficulty() {
-  int diff = analogRead(A5);
-  
-  if(diff >= 0 && diff <256) {
-    return 1;
-  }
-  else if(diff >= 256 && diff < 512) {
-    return 2;
-  }
-  else if(diff >= 512 && diff < 768) {
-    return 3;
-  }
-  else if(diff >= 768 && diff < 1024) {
-    return 4;
-  }
-}
+
+
 
 
