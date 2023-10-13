@@ -104,4 +104,7 @@ void sleepNow(){
   sleep_disable();
   Serial.println("Wake Up");
   detachInterrupt(9);
+  detachInterrupt(8);
+  detachInterrupt(7);
+  detachInterrupt(6);
 }
