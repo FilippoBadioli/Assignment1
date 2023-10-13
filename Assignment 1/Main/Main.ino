@@ -20,7 +20,7 @@ int solutionTime;
 
 void setup()
 {
-  attachInterrupt(digitalPinToInterrupt(9), wakeUp, RISING);
+  attachInterrupt(digitalPinToInterrupt(9), wakeUp, LOW);
   attachInterrupt(digitalPinToInterrupt(8), wakeUp, LOW);
   attachInterrupt(digitalPinToInterrupt(7), wakeUp, LOW);
   attachInterrupt(digitalPinToInterrupt(6), wakeUp, LOW);
@@ -45,27 +45,26 @@ void setup()
 
 void loop()
 {
-  if(isInDeepSleeping==false){
-    //10s start
+
+  //usando millis() fai trascorrere 10 secondi
+  
+
+    //int i = 100;
     for(int i = 1000; i>0 && wantGame==false; i--){
       fadeFun();
       wantGame = isB1Pressed();
+      
       delay(10);
     }
+  Serial.println("dovrebbe dormire");
+  //se in 10 secondi non viene premuto alcun tasto, richiama la funzione sleepNow()
+  if(wantGame==false){
+    sleepNow();
   }
   
-  //deep sleeping
-  digitalWrite(RED, LOW);
-  isInDeepSleeping=true;
   
-  //Serial.println(wantGame);
   
-  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
-  sleep_enable();
-  attachInterrupt(digitalPinToInterrupt(9), wakeUp, RISING);
-  sleep_mode();
-  sleep_disable();
-  detachInterrupt(digitalPinToInterrupt(9));
+  wantGame=true;
   
   //se premuto un qualsiasi tasto, lampeggia Xs e parte il gioco
   if(wantGame){
@@ -81,7 +80,6 @@ void loop()
 }
 
 void wakeUp(){
-  Serial.println("Wake");
 	wantGame=true;
 }
 
@@ -100,3 +98,14 @@ void fadeFun(){
 
 
 
+void sleepNow(){
+  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+  sleep_enable();
+
+  attachInterrupt(9, wakeUp, LOW);
+
+  sleep_mode();
+  sleep_disable();
+  Serial.println("Wake Up");
+  detachInterrupt(9);
+}

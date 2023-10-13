@@ -1,0 +1,6 @@
+{
+    "board": "arduino:avr:uno",
+    "programmer": "usbasp",
+    "sketch": "Assignment 1\\Main\\Main.ino",
+    "port": "COM3"
+}
