@@ -35,10 +35,8 @@ void setup()
   }
   
   pinMode(RED, OUTPUT);
-  //analogWrite(11,HIGH);
   
   Serial.println("Welcome to the Restore the Light Game. Press Key B1 to Start");
-  //srand(time(NULL));
   
   fadeFun();
 }
@@ -61,8 +59,7 @@ void loop()
   }
   
   
-  
-  wantGame=true;
+
   
   //se premuto un qualsiasi tasto, lampeggia Xs e parte il gioco
   if(wantGame){
