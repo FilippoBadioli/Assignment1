@@ -43,21 +43,19 @@ void setup()
   fadeFun();
 }
 
+
+unsigned long startTime = millis();
 void loop()
 {
-
-  //usando millis() fai trascorrere 10 secondi
+  //trascorro i primi 10 secondi per vedere se viene premuto un tasto
+  while (millis() - startTime < 10000 && !wantGame) {
+    fadeFun();
+    wantGame = isB1Pressed();
+    Serial.println(millis() - startTime);
+    delay(10);
+}
   
-
-    //int i = 100;
-    for(int i = 1000; i>0 && wantGame==false; i--){
-      fadeFun();
-      wantGame = isB1Pressed();
-      
-      delay(10);
-    }
-  Serial.println("dovrebbe dormire");
-  //se in 10 secondi non viene premuto alcun tasto, richiama la funzione sleepNow()
+  //se non viene premuto un tasto, va in sleep mode
   if(wantGame==false){
     sleepNow();
   }
@@ -99,6 +97,7 @@ void fadeFun(){
 
 
 void sleepNow(){
+  Serial.println("Sleeping");
   set_sleep_mode(SLEEP_MODE_PWR_DOWN);
   sleep_enable();
 
