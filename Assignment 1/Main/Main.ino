@@ -99,6 +99,9 @@ void sleepNow(){
   sleep_enable();
 
   attachInterrupt(9, wakeUp, LOW);
+  attachInterrupt(8, wakeUp, LOW);
+  attachInterrupt(7, wakeUp, LOW);
+  attachInterrupt(6, wakeUp, LOW);
 
   sleep_mode();
   sleep_disable();
