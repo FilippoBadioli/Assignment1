@@ -30,18 +30,17 @@ bool genericButtonPressed(){
   return false;
 }
 
+long lastDebounceTime = 0;
+long debounceDelay = 50;
 bool debounceButton(bool previousState, int pin) {
-  bool state;
-  previousState = digitalRead(pin);
-  for(int counter = 0; counter < 20; counter++) {
-    delay(1);
-    state = digitalRead(pin);
-    if(state != previousState){
-      counter = 0;
-      previousState = state;
+  int buttonState = digitalRead(pin);
+  if(millis() - lastDebounceTime > debounceDelay){
+    if(buttonState == HIGH){
+      lastDebounceTime = millis();
+      return true;
     }
   }
-  return state; 
+  return false;
 }
 
 void clearButtonsSequence() {
@@ -56,19 +55,19 @@ void getSequence() {
   int startTime = millis();
   int elapsedTime = 0;
   while(pressedButtonsNum < 4 && elapsedTime < 10000) {
-      if(debounceButton(buttonState1, 6) == HIGH && buttonState1 == LOW) {
+      if(debounceButton(buttonState1, 6) == HIGH ) {
       	buttonSequence[buttonIndex++] = 2;
         pressedButtonsNum++;
       }
-      if(debounceButton(buttonState2, 7) == HIGH && buttonState2 == LOW) {
+      if(debounceButton(buttonState2, 7) == HIGH ) {
       	buttonSequence[buttonIndex++] = 3;
         pressedButtonsNum++;
       }
-      if(debounceButton(buttonState3, 8) == HIGH && buttonState3 == LOW) {
+      if(debounceButton(buttonState3, 8) == HIGH ) {
       	buttonSequence[buttonIndex++] = 4;
         pressedButtonsNum++;
       }
-      if(debounceButton(buttonState4, 9) == HIGH && buttonState4 == LOW) {
+      if(debounceButton(buttonState4, 9) == HIGH ) {
       	buttonSequence[buttonIndex++] = 5;
         pressedButtonsNum++;
       }
@@ -77,6 +76,7 @@ void getSequence() {
       }
       Serial.println("\n");
       elapsedTime = millis() - startTime;
+      delay(200);
   }
 }
 
