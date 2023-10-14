@@ -11,7 +11,7 @@ int checkDifficulty();
 
 String printDifficulty();
 
-long getFactor();
+float getFactor();
 
 int getLevel();
 

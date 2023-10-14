@@ -56,7 +56,7 @@ int checkDifficulty() {
   }
 }
 
-long getFactor() {
+float getFactor() {
   return factor;
 }
 

@@ -29,15 +29,9 @@ ISR (PCINT0_vect) // handle pin change interrupt for D8 to D13 here
  {    
      digitalWrite(13,digitalRead(8) and digitalRead(9));
  }
- 
-ISR (PCINT1_vect) // handle pin change interrupt for A0 to A5 here
- {
-     digitalWrite(13,digitalRead(A0));
- }  
- 
 ISR (PCINT2_vect) // handle pin change interrupt for D0 to D7 here
  {
-     digitalWrite(13,digitalRead(7));
+     digitalWrite(13,digitalRead(7) and digitalRead(6));
  }  
 
 void setup()
@@ -80,6 +74,7 @@ void loop()
     fadeFun();
     unsigned long startTime = millis();
     //trascorro i primi 10 secondi per vedere se viene premuto un tasto
+    delay(200);
     while (millis() - startTime < 10000 && !wantGame) {
     fadeFun();
     wantGame = isB1Pressed();
@@ -87,8 +82,6 @@ void loop()
   }
 
   }
-
-  Serial.println("Game Started");
   
   
   //se non viene premuto un tasto, va in sleep mode
@@ -109,7 +102,7 @@ void loop()
 }
 
 void wakeUp(){
-	wantGame=true;
+	wantGame=false;
 }
 
 
