@@ -79,7 +79,7 @@ void getSequence() {
       }
       Serial.println("\n");
       elapsedTime = millis() - startTime;
-      delay(200);
+      delay(170);
   }
 }
 

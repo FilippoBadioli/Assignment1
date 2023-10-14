@@ -18,8 +18,35 @@ int prevButtonState=LOW;
 bool isInDeepSleeping = false;
 int solutionTime;
 
+void pciSetup(byte pin)
+{
+  *digitalPinToPCMSK(pin) |= bit (digitalPinToPCMSKbit(pin));  // enable pin
+  PCIFR  |= bit (digitalPinToPCICRbit(pin)); // clear any outstanding interrupt
+  PCICR  |= bit (digitalPinToPCICRbit(pin)); // enable interrupt for the group
+}
+
+ISR (PCINT0_vect) // handle pin change interrupt for D8 to D13 here
+ {    
+     digitalWrite(13,digitalRead(8) and digitalRead(9));
+ }
+ 
+ISR (PCINT1_vect) // handle pin change interrupt for A0 to A5 here
+ {
+     digitalWrite(13,digitalRead(A0));
+ }  
+ 
+ISR (PCINT2_vect) // handle pin change interrupt for D0 to D7 here
+ {
+     digitalWrite(13,digitalRead(7));
+ }  
+
 void setup()
 {
+
+  /*pciSetup(7);
+  pciSetup(8);
+  pciSetup(9);*/
+
   attachInterrupt(digitalPinToInterrupt(9), wakeUp, LOW);
   attachInterrupt(digitalPinToInterrupt(8), wakeUp, LOW);
   attachInterrupt(digitalPinToInterrupt(7), wakeUp, LOW);
@@ -56,13 +83,17 @@ void loop()
     fadeFun();
     wantGame = isB1Pressed();
     delay(10);
-}
+  }
 
   }
+
+  Serial.println("Game Started");
   
   
   //se non viene premuto un tasto, va in sleep mode
   if(wantGame==false){
+    digitalWrite(RED, LOW);
+    delay(200);
     sleepNow();
   }
   
