@@ -10,6 +10,7 @@
 #define LAST_PIN 5
 #define RED 11
 
+int TURNOFFTIME = 3000;
 int sequence[4];
 int expectedSequence[4];
 int pin[]={5, 4, 3, 2};
@@ -43,17 +44,18 @@ void game(){
   
   //Invertire l'array
   reverseArray(sequence, expectedSequence, 4);
-  
+
   for(int i = 0; i<NUM_PIN; i++){
     Serial.println(sequence[i]);
   }
   
   //Spegnimento dei LED uno alla volta
   for(int i = 0; i<NUM_PIN; i++){
-    delay(200);
+    delay(TURNOFFTIME * getFactor());
+    Serial.println(getFactor());
+    Serial.println("sium");
     int j = sequence[i];
     digitalWrite(j, LOW);
-    delay(getTurnOffTime()); //modificando questo i led si spengono piu velocemente
   } 
  
  
@@ -68,6 +70,6 @@ void game(){
   }
   else {
     gamelost();
-  } 
+  }  
 }
 

@@ -24,8 +24,8 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(8), wakeUp, LOW);
   attachInterrupt(digitalPinToInterrupt(7), wakeUp, LOW);
   attachInterrupt(digitalPinToInterrupt(6), wakeUp, LOW);
-  wantGame=false;
   Serial.begin(9600);
+  Serial.println();
   for(int i=2; i<6; i++){
     pinMode(i, OUTPUT);
     digitalWrite(i,LOW);
@@ -36,30 +36,35 @@ void setup()
   
   pinMode(RED, OUTPUT);
   
-  Serial.println("Welcome to the Restore the Light Game. Press Key B1 to Start");
   
-  fadeFun();
 }
 
 
-unsigned long startTime = millis();
+
 void loop()
 {
-  //trascorro i primi 10 secondi per vedere se viene premuto un tasto
-  while (millis() - startTime < 10000 && !wantGame) {
+  for(int i = 2; i < 6; i++) {
+    digitalWrite(i, LOW);
+  }
+  if(getLevel() == 1) {
+    wantGame=false;
+    Serial.println("Welcome to the Restore the Light Game. Press Key B1 to Start");
+    fadeFun();
+    unsigned long startTime = millis();
+    //trascorro i primi 10 secondi per vedere se viene premuto un tasto
+    while (millis() - startTime < 10000 && !wantGame) {
     fadeFun();
     wantGame = isB1Pressed();
-    Serial.println(millis() - startTime);
     delay(10);
 }
+
+  }
+  
   
   //se non viene premuto un tasto, va in sleep mode
   if(wantGame==false){
     sleepNow();
   }
-  
-  
-
   
   //se premuto un qualsiasi tasto, lampeggia Xs e parte il gioco
   if(wantGame){
@@ -67,11 +72,8 @@ void loop()
       fadeFun();
       delay(5);
     }
+    game();
   }
-
-    if(wantGame==true){ //diventa true quando B1 viene premuto
-  		game();
-    }
 }
 
 void wakeUp(){
@@ -87,11 +89,6 @@ void fadeFun(){
     fade = -fade;
   }
 }
-
-
-
-
-
 
 void sleepNow(){
   Serial.println("Sleeping");

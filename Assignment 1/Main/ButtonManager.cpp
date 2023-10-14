@@ -1,20 +1,19 @@
 #include "ButtonManager.h"
 #include "Arduino.h"
+#include "LevelManager.h"
 
+const int TURNONTIME = 10000;
 bool buttonState1 = LOW;
 bool buttonState2 = LOW;
 bool buttonState3 = LOW;
 bool buttonState4 = LOW;
-
 int pressedButtonsNum = 0;
 int buttonSequence[4];
 
 
 
 bool isB1Pressed(){
-  int b1 = digitalRead(9);
-  if(b1==HIGH){
-    Serial.println("pressed");
+  if(digitalRead(9) == HIGH){
     return true;
   }
   else {
@@ -54,21 +53,25 @@ void getSequence() {
   int buttonIndex = 0;
   int startTime = millis();
   int elapsedTime = 0;
-  while(pressedButtonsNum < 4 && elapsedTime < 10000) {
+  while(pressedButtonsNum < 4 && elapsedTime < TURNONTIME * getFactor()) {
       if(debounceButton(buttonState1, 6) == HIGH ) {
       	buttonSequence[buttonIndex++] = 2;
+        digitalWrite(2, HIGH);
         pressedButtonsNum++;
       }
       if(debounceButton(buttonState2, 7) == HIGH ) {
       	buttonSequence[buttonIndex++] = 3;
+        digitalWrite(3, HIGH);
         pressedButtonsNum++;
       }
       if(debounceButton(buttonState3, 8) == HIGH ) {
       	buttonSequence[buttonIndex++] = 4;
+        digitalWrite(4, HIGH);
         pressedButtonsNum++;
       }
       if(debounceButton(buttonState4, 9) == HIGH ) {
       	buttonSequence[buttonIndex++] = 5;
+        digitalWrite(5, HIGH);
         pressedButtonsNum++;
       }
     for(int i=0;i<4;i++) {

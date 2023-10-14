@@ -2,15 +2,15 @@
 #include "Arduino.h"
 #include "ButtonManager.h"
 
-int level = 0;
-int turnOffTime = 2000;
+int level = 1;
+float factor = 1;
  
 void levelup() {
   level++;
   Serial.print("Congratulations, you advance to the level ");
   Serial.println(level);
   clearButtonsSequence();
-  turnOffTime *= 0.85;
+  factor = factor * 0.85;
 }
 
 void gamelost() {
@@ -56,8 +56,8 @@ int checkDifficulty() {
   }
 }
 
-long getTurnOffTime() {
-  return turnOffTime;
+long getFactor() {
+  return factor;
 }
 
 int getLevel() {
