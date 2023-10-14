@@ -43,9 +43,10 @@ ISR (PCINT2_vect) // handle pin change interrupt for D0 to D7 here
 void setup()
 {
 
-  /*pciSetup(7);
+  pciSetup(6);
+  pciSetup(7);
   pciSetup(8);
-  pciSetup(9);*/
+  pciSetup(9);
 
   attachInterrupt(digitalPinToInterrupt(9), wakeUp, LOW);
   attachInterrupt(digitalPinToInterrupt(8), wakeUp, LOW);
