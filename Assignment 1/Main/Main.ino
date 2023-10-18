@@ -86,8 +86,8 @@ void setup()
 
 void loop()
 {
-  for(int i = FIRST_LED_PIN; i <= LAST_LED_PIN; i++) {
-    digitalWrite(i, LOW);
+  for(int i = 0; i <= NUM_LEDS; i++) {
+    digitalWrite(ledPins[i], LOW);
   }
   if(getLevel() == 1) {
     wantGame=false;
