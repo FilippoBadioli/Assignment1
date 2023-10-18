@@ -4,6 +4,8 @@
 #include "math.h"
 
 #define CONS 0.85;
+#define POT_VAL_MAX 1024
+#define POT_STEP 256
 
 int level = 1;
 float factor = 1;
@@ -44,8 +46,8 @@ String printDifficulty() {
 
 int checkDifficulty() {
   int diff = analogRead(A5);
-  if (diff >= 0 && diff < 1024) {
-    return (diff / 256) + 1;
+  if (diff >= 0 && diff < POT_VAL_MAX) {
+    return (diff / POT_STEP) + 1;
   }
 
 }
