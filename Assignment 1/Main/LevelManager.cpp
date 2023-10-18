@@ -44,19 +44,10 @@ String printDifficulty() {
 
 int checkDifficulty() {
   int diff = analogRead(A5);
-  
-  if(diff >= 0 && diff <256) {
-    return 1;
+  if (diff >= 0 && diff < 1024) {
+    return (diff / 256) + 1;
   }
-  else if(diff >= 256 && diff < 512) {
-    return 2;
-  }
-  else if(diff >= 512 && diff < 768) {
-    return 3;
-  }
-  else if(diff >= 768 && diff < 1024) {
-    return 4;
-  }
+
 }
 
 float getFactor() {
