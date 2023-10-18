@@ -2,6 +2,8 @@
 #include "Arduino.h"
 #include "ButtonManager.h"
 
+#define CONS 0.85;
+
 int level = 1;
 float factor = 1;
  
@@ -10,7 +12,7 @@ void levelup() {
   Serial.print("Congratulations, you advance to the level ");
   Serial.println(level);
   clearButtonsSequence();
-  factor = factor * 0.85;
+  factor = factor * CONS;
 }
 
 void gamelost() {

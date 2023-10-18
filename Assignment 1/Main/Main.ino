@@ -7,7 +7,15 @@
 #include "ButtonManager.h"
 #include "LevelManager.h"
 
+#define FIRST_BUTTON_PIN 6
+#define NUM_BUTTON 4
 #define RED 11
+#define B1 9
+#define B2 8
+#define B3 6
+#define B4 7
+
+
 
 int turn_off_led_difficult = 800; //easy di default
 int sequenza[4];
@@ -37,11 +45,15 @@ ISR (PCINT2_vect) // handle pin change interrupt for D0 to D7 here
 void setup()
 {
 
-  pciSetup(6);
-  pciSetup(7);
-  pciSetup(8);
-  pciSetup(9);
+  pciSetup(B4);
+  pciSetup(B3);
+  pciSetup(B2);
+  pciSetup(B1);
 
+  for(int i = FIRST_BUTTON_PIN; i<NUM_BUTTON; i++){
+    pciSetup(i);
+
+  }
   attachInterrupt(digitalPinToInterrupt(9), wakeUp, LOW);
   attachInterrupt(digitalPinToInterrupt(8), wakeUp, LOW);
   attachInterrupt(digitalPinToInterrupt(7), wakeUp, LOW);

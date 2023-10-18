@@ -2,6 +2,14 @@
 #include "Arduino.h"
 #include "LevelManager.h"
 
+#define B1 9
+#define B2 8
+#define B3 6
+#define B4 7
+#define DEBOUNCEDELAY 50.
+#define NUM_BUTTON 4
+#define DEFAULT_DELAY 170
+
 const int TURNONTIME = 10000;
 bool buttonState1 = LOW;
 bool buttonState2 = LOW;
@@ -13,7 +21,7 @@ int buttonSequence[4];
 
 
 bool isB1Pressed(){
-  if(digitalRead(9) == HIGH){
+  if(digitalRead(B1) == HIGH){
     return true;
   }
   else {
@@ -22,18 +30,18 @@ bool isB1Pressed(){
 }
 
 bool genericButtonPressed(){
-  if (digitalRead(9) == HIGH || digitalRead(8) == HIGH ||
-      digitalRead(6) == HIGH || digitalRead(7) == HIGH) {
+  if (digitalRead(B1) == HIGH || digitalRead(B2) == HIGH ||
+      digitalRead(B3) == HIGH || digitalRead(B4) == HIGH) {
     return true;
   }
   return false;
 }
 
 long lastDebounceTime = 0;
-long debounceDelay = 50;
+
 bool debounceButton(bool previousState, int pin) {
   int buttonState = digitalRead(pin);
-  if(millis() - lastDebounceTime > debounceDelay){
+  if(millis() - lastDebounceTime > DEBOUNCEDELAY){
     if(buttonState == HIGH){
       lastDebounceTime = millis();
       return true;
@@ -43,7 +51,7 @@ bool debounceButton(bool previousState, int pin) {
 }
 
 void clearButtonsSequence() {
-  for(int i = 0; i < 4; i++) {
+  for(int i = 0; i < NUM_BUTTON; i++) {
     buttonSequence[i] = 0;
   }
   pressedButtonsNum = 0;
@@ -79,12 +87,12 @@ void getSequence() {
       }
       Serial.println("\n");
       elapsedTime = millis() - startTime;
-      delay(170);
+      delay(DEFAULT_DELAY);
   }
 }
 
 bool checkButtonsSequence(int expectedSequence[4]) {
-  for(int i = 0; i < 4; i++) {
+  for(int i = 0; i < NUM_BUTTON; i++) {
     if(buttonSequence[i] != expectedSequence[i]) {
       return false;
     }

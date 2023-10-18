@@ -6,11 +6,12 @@
 #define FIRST_PIN 2
 #define LAST_PIN 5
 #define RED 11
+#define POT_PIN A0
 
 /*generate, check duplicate and save*/
 void generateRandom(int sequence[4]){
   // Leggi il valore da un pin analogico (ad esempio A0)
-  int seed = analogRead(A0);
+  int seed = analogRead(POT_PIN);
   
   // Inizializza il generatore di numeri casuali con il valore letto dal pin analogico
   srand(seed);
