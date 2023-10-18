@@ -8,12 +8,20 @@
 #include "LevelManager.h"
 
 #define FIRST_BUTTON_PIN 6
+#define LAST_BUTTON_PIN 9
 #define NUM_BUTTON 4
 #define RED 11
 #define B1 9
 #define B2 8
 #define B3 6
 #define B4 7
+
+#define FIRST_LED_PIN 2
+#define LAST_LED_PIN 5
+#define G1 2
+#define G2 3
+#define G3 4
+#define G4 5
 
 
 
@@ -35,11 +43,11 @@ void pciSetup(byte pin)
 
 ISR (PCINT0_vect) // handle pin change interrupt for D8 to D13 here
  {    
-     digitalWrite(13,digitalRead(8) and digitalRead(9));
+     digitalWrite(13,digitalRead(B2) and digitalRead(B1));
  }
 ISR (PCINT2_vect) // handle pin change interrupt for D0 to D7 here
  {
-     digitalWrite(13,digitalRead(7) and digitalRead(6));
+     digitalWrite(13,digitalRead(B4) and digitalRead(B3));
  }  
 
 void setup()
@@ -50,21 +58,20 @@ void setup()
   pciSetup(B2);
   pciSetup(B1);
 
-  for(int i = FIRST_BUTTON_PIN; i<NUM_BUTTON; i++){
+  for(int i = FIRST_BUTTON_PIN; i<=LAST_BUTTON_PIN; i++){
     pciSetup(i);
-
   }
-  attachInterrupt(digitalPinToInterrupt(9), wakeUp, LOW);
-  attachInterrupt(digitalPinToInterrupt(8), wakeUp, LOW);
-  attachInterrupt(digitalPinToInterrupt(7), wakeUp, LOW);
-  attachInterrupt(digitalPinToInterrupt(6), wakeUp, LOW);
+
+  for(int i = FIRST_BUTTON_PIN; i<=LAST_BUTTON_PIN; i++ ){
+    attachInterrupt(digitalPinToInterrupt(i), wakeUp, LOW);
+  }
+  
   Serial.begin(9600);
-  Serial.println();
   for(int i=2; i<6; i++){
     pinMode(i, OUTPUT);
     digitalWrite(i,LOW);
   }
-  for(int i = 6; i<10; i++){
+  for(int i = FIRST_BUTTON_PIN; i<=LAST_BUTTON_PIN; i++){
   	pinMode(i, INPUT);
   }
   
@@ -77,7 +84,7 @@ void setup()
 
 void loop()
 {
-  for(int i = 2; i < 6; i++) {
+  for(int i = FIRST_LED_PIN; i <= LAST_LED_PIN; i++) {
     digitalWrite(i, LOW);
   }
   if(getLevel() == 1) {
@@ -132,16 +139,15 @@ void sleepNow(){
   set_sleep_mode(SLEEP_MODE_PWR_DOWN);
   sleep_enable();
 
-  attachInterrupt(9, wakeUp, LOW);
-  attachInterrupt(8, wakeUp, LOW);
-  attachInterrupt(7, wakeUp, LOW);
-  attachInterrupt(6, wakeUp, LOW);
+  for(int i = FIRST_BUTTON_PIN; i<=LAST_BUTTON_PIN; i++ ){
+    attachInterrupt(i, wakeUp, LOW);
+  }
 
   sleep_mode();
   sleep_disable();
   Serial.println("Wake Up");
-  detachInterrupt(9);
-  detachInterrupt(8);
-  detachInterrupt(7);
-  detachInterrupt(6);
+
+  for(int i = FIRST_BUTTON_PIN; i<=LAST_BUTTON_PIN; i++ ){
+    detachInterrupt(i);
+  }
 }
