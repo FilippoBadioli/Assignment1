@@ -56,28 +56,28 @@ void getSequence() {
   int buttonIndex = 0;
   int startTime = millis();
   int elapsedTime = 0;
-  while(pressedButtonsNum < 4 && elapsedTime < TURNONTIME * getFactor() * getDiff()) {
-      if(debounceButton(6) == HIGH ) {
+  while(pressedButtonsNum < NUM_BUTTON && elapsedTime < TURNONTIME * getFactor() * getDiff()) {
+      if(debounceButton(B3) == HIGH ) {
       	buttonSequence[buttonIndex++] = 2;
         digitalWrite(2, HIGH);
         pressedButtonsNum++;
       }
-      if(debounceButton(7) == HIGH ) {
+      if(debounceButton(B4) == HIGH ) {
       	buttonSequence[buttonIndex++] = 3;
         digitalWrite(3, HIGH);
         pressedButtonsNum++;
       }
-      if(debounceButton(8) == HIGH ) {
+      if(debounceButton(B2) == HIGH ) {
       	buttonSequence[buttonIndex++] = 4;
         digitalWrite(4, HIGH);
         pressedButtonsNum++;
       }
-      if(debounceButton(9) == HIGH ) {
+      if(debounceButton(B1) == HIGH ) {
       	buttonSequence[buttonIndex++] = 5;
         digitalWrite(5, HIGH);
         pressedButtonsNum++;
       }
-    for(int i=0;i<4;i++) {
+    for(int i=0;i<NUM_BUTTON;i++) {
       	Serial.println(buttonSequence[i]);
       }
       Serial.println("\n");
@@ -86,7 +86,7 @@ void getSequence() {
   }
 }
 
-bool checkButtonsSequence(int expectedSequence[4]) {
+bool checkButtonsSequence(int expectedSequence[NUM_BUTTON]) {
   for(int i = 0; i < NUM_BUTTON; i++) {
     if(buttonSequence[i] != expectedSequence[i]) {
       return false;
