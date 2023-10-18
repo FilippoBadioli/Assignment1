@@ -16,6 +16,7 @@
 #define B3 6
 #define B4 7
 
+#define NUM_LEDS 4
 #define FIRST_LED_PIN 2
 #define LAST_LED_PIN 5
 #define G1 2
@@ -23,7 +24,8 @@
 #define G3 4
 #define G4 5
 
-
+const int buttonPins[NUM_BUTTON] = {9, 8, 6, 7};
+const int ledPins[NUM_LEDS] = {2, 3, 4, 5};
 
 int turn_off_led_difficult = 800; //easy di default
 int sequenza[4];
@@ -58,21 +60,21 @@ void setup()
   pciSetup(B2);
   pciSetup(B1);
 
-  for(int i = FIRST_BUTTON_PIN; i<=LAST_BUTTON_PIN; i++){
-    pciSetup(i);
+  for(int i = 0; i<NUM_BUTTON; i++){
+    pciSetup(buttonPins[i]);
   }
 
-  for(int i = FIRST_BUTTON_PIN; i<=LAST_BUTTON_PIN; i++ ){
-    attachInterrupt(digitalPinToInterrupt(i), wakeUp, LOW);
+  for(int i = 0; i<NUM_BUTTON; i++ ){
+    attachInterrupt(digitalPinToInterrupt(buttonPins[i]), wakeUp, LOW);
   }
   
   Serial.begin(9600);
-  for(int i=2; i<6; i++){
-    pinMode(i, OUTPUT);
+  for(int i=0; i<NUM_LEDS; i++){
+    pinMode(ledPins[i], OUTPUT);
     digitalWrite(i,LOW);
   }
-  for(int i = FIRST_BUTTON_PIN; i<=LAST_BUTTON_PIN; i++){
-  	pinMode(i, INPUT);
+  for(int i = 0; i<NUM_BUTTON; i++){
+  	pinMode(buttonPins[i], INPUT);
   }
   
   pinMode(RED, OUTPUT);
