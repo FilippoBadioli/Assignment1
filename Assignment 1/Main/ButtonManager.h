@@ -3,7 +3,7 @@
 
 bool isB1Pressed();
 bool genericButtonPressed();
-bool debounceButton(bool previousState, int pin);
+bool debounceButton(int pin);
 void clearButtonsSequence();
 void getSequence();
 bool checkButtonsSequence(int expectedSequence[4]);
