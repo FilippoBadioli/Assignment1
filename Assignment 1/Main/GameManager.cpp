@@ -13,16 +13,18 @@
 int TURNOFFTIME = 8000;
 int sequence[4];
 int expectedSequence[4];
-int pin[]={5, 4, 3, 2};
-int button[]={6,7,8,9};
+int pin[] = {5, 4, 3, 2};
+int button[] = {6, 7, 8, 9};
 int difficulty;
 bool win;
 
-void game(){
-  
-  //Spengo tutte le luci e metto in output "GO!"
-  for(int i = 0; i < NUM_PIN; i++){
-  	digitalWrite(pin[i], LOW);
+void game()
+{
+
+  // Spengo tutte le luci e metto in output "GO!"
+  for (int i = 0; i < NUM_PIN; i++)
+  {
+    digitalWrite(pin[i], LOW);
   }
   Serial.println("GO!");
   Serial.print("Welcome to level ");
@@ -31,45 +33,48 @@ void game(){
   Serial.print(printDifficulty());
   Serial.println(" mode");
   delay(5000);
-  
-  //Accendo i LED
-  for(int i = 0; i < NUM_PIN; i++){
-  	digitalWrite(pin[i], HIGH);
+
+  // Accendo i LED
+  for (int i = 0; i < NUM_PIN; i++)
+  {
+    digitalWrite(pin[i], HIGH);
   }
   digitalWrite(RED, LOW);
   delay(2000);
-  
-  //Mescolare l'array
+
+  // Mescolare l'array
   generateRandom(sequence);
-  
-  //Invertire l'array
+
+  // Invertire l'array
   reverseArray(sequence, expectedSequence, 4);
 
-  for(int i = 0; i<NUM_PIN; i++){
+  for (int i = 0; i < NUM_PIN; i++)
+  {
     Serial.println(sequence[i]);
   }
   Serial.println(getFactor() * getDiff());
-  //Spegnimento dei LED uno alla volta
-  for(int i = 0; i<NUM_PIN; i++){
+  // Spegnimento dei LED uno alla volta
+  for (int i = 0; i < NUM_PIN; i++)
+  {
     delay(TURNOFFTIME * getFactor() * getDiff());
     Serial.println(getFactor());
     Serial.println("sium");
     int j = sequence[i];
     digitalWrite(j, LOW);
-  } 
- 
- 
+  }
+
   /*Pressione pulsanti e memorizzazione ordine*/
   getSequence();
-  
-  //Controllo sequenze e decisione risultato
+
+  // Controllo sequenze e decisione risultato
   win = checkButtonsSequence(expectedSequence);
-  
-  if(win) {
+
+  if (win)
+  {
     levelup();
   }
-  else {
+  else
+  {
     gamelost();
-  }  
+  }
 }
-

@@ -1,5 +1,5 @@
 #ifndef BUTTONMANAGER_H
-#define BUTTONMANAGER_H 
+#define BUTTONMANAGER_H
 
 bool isB1Pressed();
 bool genericButtonPressed();
