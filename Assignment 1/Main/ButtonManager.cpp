@@ -10,7 +10,7 @@
 #define NUM_BUTTON 4
 #define DEFAULT_DELAY 170
 
-const int TURNONTIME = 10000;
+const int TURNONTIME = 20000;
 bool buttonState1 = LOW;
 bool buttonState2 = LOW;
 bool buttonState3 = LOW;
@@ -61,7 +61,7 @@ void getSequence() {
   int buttonIndex = 0;
   int startTime = millis();
   int elapsedTime = 0;
-  while(pressedButtonsNum < 4 && elapsedTime < TURNONTIME * getFactor()) {
+  while(pressedButtonsNum < 4 && elapsedTime < TURNONTIME * getFactor() * getDiff()) {
       if(debounceButton(buttonState1, 6) == HIGH ) {
       	buttonSequence[buttonIndex++] = 2;
         digitalWrite(2, HIGH);

@@ -1,6 +1,7 @@
 #include "LevelManager.h"
 #include "Arduino.h"
 #include "ButtonManager.h"
+#include "math.h"
 
 #define CONS 0.85;
 
@@ -64,4 +65,11 @@ float getFactor() {
 
 int getLevel() {
   return level;
+}
+
+float getDiff() {
+  float diffFactor = (1 / pow(checkDifficulty(), 1/3));
+  Serial.println(diffFactor);
+  
+  return diffFactor;
 }

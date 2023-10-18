@@ -10,7 +10,7 @@
 #define LAST_PIN 5
 #define RED 11
 
-int TURNOFFTIME = 3000;
+int TURNOFFTIME = 8000;
 int sequence[4];
 int expectedSequence[4];
 int pin[]={5, 4, 3, 2};
@@ -48,10 +48,10 @@ void game(){
   for(int i = 0; i<NUM_PIN; i++){
     Serial.println(sequence[i]);
   }
-  
+  Serial.println(getFactor() * getDiff());
   //Spegnimento dei LED uno alla volta
   for(int i = 0; i<NUM_PIN; i++){
-    delay(TURNOFFTIME * getFactor());
+    delay(TURNOFFTIME * getFactor() * getDiff());
     Serial.println(getFactor());
     Serial.println("sium");
     int j = sequence[i];
