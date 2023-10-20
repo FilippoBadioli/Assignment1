@@ -36,25 +36,22 @@ int prevButtonState = LOW;
 bool isInDeepSleeping = false;
 int solutionTime;
 
-void pciSetup(byte pin)
-{
+void pciSetup(byte pin) {
   *digitalPinToPCMSK(pin) |= bit(digitalPinToPCMSKbit(pin)); // enable pin
   PCIFR |= bit(digitalPinToPCICRbit(pin));                   // clear any outstanding interrupt
   PCICR |= bit(digitalPinToPCICRbit(pin));                   // enable interrupt for the group
 }
 
-ISR(PCINT0_vect) // handle pin change interrupt for D8 to D13 here
-{
+// handle pin change interrupt for D8 to D13 here
+ISR(PCINT0_vect) {
   digitalWrite(13, digitalRead(B2) and digitalRead(B1));
 }
-ISR(PCINT2_vect) // handle pin change interrupt for D0 to D7 here
-{
+// handle pin change interrupt for D0 to D7 here
+ISR(PCINT2_vect) {
   digitalWrite(13, digitalRead(B4) and digitalRead(B3));
 }
 
-void setup()
-{
-
+void setup() {
   for (int i = 0; i < NUM_BUTTON; i++)
   {
     pciSetup(buttonPins[i]);

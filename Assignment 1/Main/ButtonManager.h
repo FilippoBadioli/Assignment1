@@ -2,7 +2,6 @@
 #define BUTTONMANAGER_H
 
 bool isB1Pressed();
-bool genericButtonPressed();
 bool debounceButton(int pin);
 void clearButtonsSequence();
 void getSequence();

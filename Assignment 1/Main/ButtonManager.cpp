@@ -15,6 +15,7 @@ int pressedButtonsNum = 0;
 int buttonSequence[4];
 long lastDebounceTime = 0;
 
+//Checks if the button called B1 gets pressed
 bool isB1Pressed()
 {
   if (digitalRead(B1) == HIGH)
@@ -27,12 +28,7 @@ bool isB1Pressed()
   }
 }
 
-bool genericButtonPressed()
-{
-  return (digitalRead(B1) == HIGH || digitalRead(B2) == HIGH ||
-          digitalRead(B3) == HIGH || digitalRead(B4) == HIGH);
-}
-
+//Function that ignores the bouncing of buttons
 bool debounceButton(int pin)
 {
   int buttonState = digitalRead(pin);
@@ -47,6 +43,7 @@ bool debounceButton(int pin)
   return false;
 }
 
+//Function that clears the current cached sequence of buttons pressed
 void clearButtonsSequence()
 {
   for (int i = 0; i < NUM_BUTTON; i++)
@@ -56,12 +53,13 @@ void clearButtonsSequence()
   pressedButtonsNum = 0;
 }
 
+//Called to get in input the sequence of pressed buttons
 void getSequence()
 {
   int buttonIndex = 0;
   int startTime = millis();
   int elapsedTime = 0;
-  while (pressedButtonsNum < NUM_BUTTON && elapsedTime < TURNONTIME * getFactor() * getDiff())
+  while (pressedButtonsNum < NUM_BUTTON && elapsedTime < TURNONTIME * getFactor() * getDiffFactor())
   {
     if (debounceButton(B3) == HIGH)
     {
@@ -87,16 +85,12 @@ void getSequence()
       digitalWrite(5, HIGH);
       pressedButtonsNum++;
     }
-    for (int i = 0; i < NUM_BUTTON; i++)
-    {
-      Serial.println(buttonSequence[i]);
-    }
-    Serial.println("\n");
     elapsedTime = millis() - startTime;
     delay(DEFAULT_DELAY);
   }
 }
 
+//Checks if the sequence of pressed buttons is equal to the expected sequence
 bool checkButtonsSequence(int expectedSequence[NUM_BUTTON])
 {
   for (int i = 0; i < NUM_BUTTON; i++)

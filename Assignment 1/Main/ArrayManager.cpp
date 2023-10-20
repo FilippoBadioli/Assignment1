@@ -8,13 +8,13 @@
 #define RED 11
 #define POT_PIN A0
 
-/*generate, check duplicate and save*/
+//Generate random numbers, check duplicates and save
 void generateRandom(int sequence[4])
 {
-  // Leggi il valore da un pin analogico (ad esempio A0)
+  //Generates a seed based on an analog pin
   int seed = analogRead(POT_PIN);
 
-  // Inizializza il generatore di numeri casuali con il valore letto dal pin analogico
+  //Initializes the random number generator based on the seed read in the analog pin
   srand(seed);
 
   for (int i = 0; i < NUM_PIN; i++)
@@ -23,28 +23,28 @@ void generateRandom(int sequence[4])
     do
     {
       r = rand() % (LAST_PIN - FIRST_PIN + 1) + FIRST_PIN;
-    } while (isDuplicate(r, sequence, i)); // Continua a generare finché non si ottiene un numero unico
+    } while (isDuplicate(r, sequence, i)); //Keeps on generating until it gets to an unique number
     sequence[i] = r;
   }
 }
 
+//Checks if the number is already in the sequence
 int isDuplicate(int num, int arr[], int size)
 {
   for (int i = 0; i < size; i++)
   {
     if (arr[i] == num)
     {
-      return 1; // Trovato un duplicato
+      return 1; //Found a duplicate
     }
   }
-  return 0; // Nessun duplicato trovato
+  return 0; //No duplicates found
 }
 
+//Reverts the array and saves it in the destination array
 void reverseArray(int arr[], int dest[], int length)
 {
-  int i, j;
-
-  // Inverti l'array e salvalo nell'array di destinazione
+  int i, j; 
   for (i = length - 1, j = 0; i >= 0; i--, j++)
   {
     dest[j] = arr[i];

@@ -18,10 +18,11 @@ int button[] = {6, 7, 8, 9};
 int difficulty;
 bool win;
 
+//Functions that manages all the proceeding of the game
 void game()
 {
 
-  // Spengo tutte le luci e metto in output "GO!"
+  //Turns off all the leds and prints the current level and difficulty
   for (int i = 0; i < NUM_PIN; i++)
   {
     digitalWrite(pin[i], LOW);
@@ -34,7 +35,7 @@ void game()
   Serial.println(" mode");
   delay(5000);
 
-  // Accendo i LED
+  //Turn on the green leds
   for (int i = 0; i < NUM_PIN; i++)
   {
     digitalWrite(pin[i], HIGH);
@@ -42,33 +43,26 @@ void game()
   digitalWrite(RED, LOW);
   delay(2000);
 
-  // Mescolare l'array
+  //Scrambles the array
   generateRandom(sequence);
 
-  // Invertire l'array
+  //Reverts the array
   reverseArray(sequence, expectedSequence, 4);
 
+  //Turns off the leds one by one
   for (int i = 0; i < NUM_PIN; i++)
   {
-    Serial.println(sequence[i]);
-  }
-  Serial.println(getFactor() * getDiff());
-  // Spegnimento dei LED uno alla volta
-  for (int i = 0; i < NUM_PIN; i++)
-  {
-    delay(TURNOFFTIME * getFactor() * getDiff());
-    Serial.println(getFactor());
-    Serial.println("sium");
+    delay(TURNOFFTIME * getFactor() * getDiffFactor());
     int j = sequence[i];
     digitalWrite(j, LOW);
   }
 
-  /*Pressione pulsanti e memorizzazione ordine*/
   getSequence();
 
-  // Controllo sequenze e decisione risultato
+  //Check sequence and decides on the result
   win = checkButtonsSequence(expectedSequence);
 
+  //If win is true than the game goes on the next level, else it resets
   if (win)
   {
     levelup();

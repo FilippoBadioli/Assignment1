@@ -10,8 +10,8 @@
 int level = 1;
 float factor = 1;
 
-void levelup()
-{
+//Function called when a game is won, increases the level count and modifies the time factor
+void levelup() {
   level++;
   Serial.print("Congratulations, you advance to the level ");
   Serial.println(level);
@@ -19,15 +19,15 @@ void levelup()
   factor = factor * CONS;
 }
 
-void gamelost()
-{
+//Function called when a game is lost, resets the level count
+void gamelost() {
   Serial.println("You lost, game will restart");
   level = 1;
   clearButtonsSequence();
 }
 
-String printDifficulty()
-{
+//Returns a string explaining what the current difficulty is
+String printDifficulty() {
   switch (checkDifficulty())
   {
   case 1:
@@ -48,8 +48,8 @@ String printDifficulty()
   }
 }
 
-int checkDifficulty()
-{
+//checks the potentiometer value and translates it into a value ranging from 1 to 4
+int checkDifficulty() {
   int diff = analogRead(A5);
   if (diff >= 0 && diff < POT_VAL_MAX)
   {
@@ -57,20 +57,18 @@ int checkDifficulty()
   }
 }
 
-float getFactor()
-{
+//returns the decreasing time factor based on level
+float getFactor() {
   return factor;
 }
 
-int getLevel()
-{
+//returns the current level
+int getLevel() {
   return level;
 }
 
-float getDiff()
-{
-  float diffFactor = (1 / pow(checkDifficulty(), 1 / 3));
-  Serial.println(diffFactor);
-
+//Returns the decreasing time factor based on difficulty
+float getDiffFactor() {
+  float diffFactor = (1 / pow(checkDifficulty(), 0.30));
   return diffFactor;
 }

@@ -15,6 +15,6 @@ float getFactor();
 
 int getLevel();
 
-float getDiff();
+float getDiffFactor();
 
 #endif
