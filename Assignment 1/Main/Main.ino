@@ -78,18 +78,22 @@ void setup() {
 
 void loop()
 {
-  for (int i = 0; i <= NUM_LEDS; i++)
+  // Turn off all LEDs
+  for (int i = 0; i < NUM_LEDS; i++)
   {
     digitalWrite(ledPins[i], LOW);
   }
-  if (getLevel() == 1)
+
+  int level = getLevel();
+
+  if (level == 1)
   {
     wantGame = false;
     Serial.println("Welcome to the Restore the Light Game. Press Key B1 to Start");
     fadeFun();
+
     unsigned long startTime = millis();
-    // trascorro i primi 10 secondi per vedere se viene premuto un tasto
-    delay(200);
+    // Attendiamo 10 secondi per vedere se viene premuto un tasto
     while (millis() - startTime < 10000 && !wantGame)
     {
       fadeFun();
@@ -98,15 +102,15 @@ void loop()
     }
   }
 
-  // se non viene premuto un tasto, va in sleep mode
-  if (wantGame == false)
+  // Se nessun tasto viene premuto, attiva la modalità sleep
+  if (!wantGame)
   {
     digitalWrite(RED, LOW);
     delay(200);
     sleepNow();
   }
 
-  // se premuto un qualsiasi tasto, lampeggia Xs e parte il gioco
+  // Se viene premuto un tasto, lampeggia X millisecondi e avvia il gioco
   if (wantGame)
   {
     for (int i = 500; i > 0; i--)
@@ -117,6 +121,7 @@ void loop()
     game();
   }
 }
+
 
 void wakeUp()
 {
