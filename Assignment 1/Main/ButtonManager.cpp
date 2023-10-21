@@ -18,14 +18,7 @@ long lastDebounceTime = 0;
 //Checks if the button called B1 gets pressed
 bool isB1Pressed()
 {
-  if (digitalRead(B1) == HIGH)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+  return digitalRead(B1) == HIGH;
 }
 
 //Function that ignores the bouncing of buttons
@@ -45,50 +38,39 @@ bool debounceButton(int pin)
 
 //Function that clears the current cached sequence of buttons pressed
 void clearButtonsSequence()
-{
-  for (int i = 0; i < NUM_BUTTON; i++)
-  {
-    buttonSequence[i] = 0;
-  }
+{ 
+  memset(buttonSequence, 0, sizeof(buttonSequence));
   pressedButtonsNum = 0;
 }
+
 
 //Called to get in input the sequence of pressed buttons
 void getSequence()
 {
+  const int buttonPins[NUM_BUTTON] = {B3, B4, B2, B1};
+  const int buttonValues[NUM_BUTTON] = {2, 3, 4, 5};
   int buttonIndex = 0;
   int startTime = millis();
   int elapsedTime = 0;
+
   while (pressedButtonsNum < NUM_BUTTON && elapsedTime < TURNONTIME * getFactor() * getDiffFactor())
   {
-    if (debounceButton(B3) == HIGH)
+    for (int i = 0; i < NUM_BUTTON; i++)
     {
-      buttonSequence[buttonIndex++] = 2;
-      digitalWrite(2, HIGH);
-      pressedButtonsNum++;
+      if (debounceButton(buttonPins[i]) == HIGH)
+      {
+        buttonSequence[buttonIndex++] = buttonValues[i];
+        //digitalWrite(buttonValues[i], HIGH);
+        pressedButtonsNum++;
+      }
+      Serial.println(buttonSequence[i]);
     }
-    if (debounceButton(B4) == HIGH)
-    {
-      buttonSequence[buttonIndex++] = 3;
-      digitalWrite(3, HIGH);
-      pressedButtonsNum++;
-    }
-    if (debounceButton(B2) == HIGH)
-    {
-      buttonSequence[buttonIndex++] = 4;
-      digitalWrite(4, HIGH);
-      pressedButtonsNum++;
-    }
-    if (debounceButton(B1) == HIGH)
-    {
-      buttonSequence[buttonIndex++] = 5;
-      digitalWrite(5, HIGH);
-      pressedButtonsNum++;
-    }
+
     elapsedTime = millis() - startTime;
     delay(DEFAULT_DELAY);
   }
 }
+
 
 //Checks if the sequence of pressed buttons is equal to the expected sequence
 bool checkButtonsSequence(int expectedSequence[NUM_BUTTON])
