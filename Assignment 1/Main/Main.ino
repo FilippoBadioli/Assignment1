@@ -1,4 +1,10 @@
-// C++ code
+/*
+  - author: Mattia Flamigni, Filippo Badioli
+  - mail: mattia.flamigni4@studio.unibo.it, filippo.badioli@gmail.com
+  - date: 2020-10-15
+  - summary: Main file for the Restore the Light game. It manages the game flow and the sleep mode.
+*/
+
 #include <stdlib.h>
 #include <time.h>
 #include <avr/sleep.h>
