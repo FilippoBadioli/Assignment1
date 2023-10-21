@@ -1,6 +1,6 @@
 /*
-  - author: Mattia Flamigni, Filippo Badioli
-  - mail: mattia.flamigni4@studio.unibo.it, filippo.badioli@gmail.com
+  - authors: Mattia Flamigni, Filippo Badioli
+  - mail: mattia.flamigni4@studio.unibo.it, filippo.badioli@studio.unibo.it
   - date: 2020-10-15
   - summary: Main file for the Restore the Light game. It manages the game flow and the sleep mode.
 */
