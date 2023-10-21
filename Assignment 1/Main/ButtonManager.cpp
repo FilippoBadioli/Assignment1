@@ -14,6 +14,7 @@ const int TURNONTIME = 20000;
 int pressedButtonsNum = 0;
 int buttonSequence[4];
 long lastDebounceTime = 0;
+bool debug = false; //only for debug purpose
 
 //Checks if the button called B1 gets pressed
 bool isB1Pressed()
@@ -60,10 +61,12 @@ void getSequence()
       if (debounceButton(buttonPins[i]) == HIGH)
       {
         buttonSequence[buttonIndex++] = buttonValues[i];
-        //digitalWrite(buttonValues[i], HIGH);
+        digitalWrite(buttonValues[i], HIGH);
         pressedButtonsNum++;
       }
-      Serial.println(buttonSequence[i]);
+      if(debug){
+        Serial.println(buttonSequence[i]);
+      }
     }
 
     elapsedTime = millis() - startTime;
