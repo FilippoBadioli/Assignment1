@@ -6,6 +6,7 @@
 #define CONS 0.85;
 #define POT_VAL_MAX 1024
 #define POT_STEP 256
+#define RED 11
 
 int level = 1;
 float factor = 1;
@@ -21,9 +22,12 @@ void levelup() {
 
 //Function called when a game is lost, resets the level count
 void gamelost() {
-  Serial.println("You lost, game will restart");
+  Serial.print("Game over, your score is: ");
+  Serial.println(level);
   level = 1;
   clearButtonsSequence();
+  digitalWrite(RED, HIGH);
+  delay(10000);
 }
 
 //Returns a string explaining what the current difficulty is

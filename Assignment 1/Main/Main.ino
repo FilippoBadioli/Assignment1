@@ -95,7 +95,7 @@ void loop()
   if (level == 1)
   {
     wantGame = false;
-    Serial.println("Welcome to the Restore the Light Game. Press Key B1 to Start");
+    Serial.println("\nWelcome to the Restore the Light Game. Press Key B1 to Start");
     fadeFun();
 
     unsigned long startTime = millis();
