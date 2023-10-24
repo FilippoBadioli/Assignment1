@@ -1,4 +1,10 @@
-// C++ code
+/*
+  - authors: Mattia Flamigni, Filippo Badioli
+  - mail: mattia.flamigni4@studio.unibo.it, filippo.badioli@studio.unibo.it
+  - date: 2020-10-15
+  - summary: Main file for the Restore the Light game. It manages the game flow and the sleep mode.
+*/
+
 #include <stdlib.h>
 #include <time.h>
 #include <avr/sleep.h>
@@ -89,7 +95,7 @@ void loop()
   if (level == 1)
   {
     wantGame = false;
-    Serial.println("Welcome to the Restore the Light Game. Press Key B1 to Start");
+    Serial.println("\nWelcome to the Restore the Light Game. Press Key B1 to Start");
     fadeFun();
 
     unsigned long startTime = millis();

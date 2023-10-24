@@ -6,7 +6,7 @@
 #define B2 8
 #define B3 6
 #define B4 7
-#define DEBOUNCEDELAY 50.
+#define DEBOUNCEDELAY 150.
 #define NUM_BUTTON 4
 #define DEFAULT_DELAY 170
 
